@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#fff3ec">
+  <title>Ada pertanyaan untuk Bu Marsha</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💌</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #fff3ec;
+      --ink: #3b1f2b;
+      --muted: #8b6a76;
+      --rose: #d42a5c;
+      --rose-deep: #b01c49;
+      --rose-soft: rgba(212, 42, 92, .35);
+      --card: #ffffff;
+      --field: #fffaf7;
+      --line: #f1d9df;
+      --danger: #b3261e;
+      --radius-card: 28px;
+      --radius-field: 16px;
+      --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --spring: cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: max(24px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.55;
+      color: var(--ink);
+      background:
+        radial-gradient(60vmax 60vmax at 0% 0%, #ffd9e0 0%, transparent 60%),
+        radial-gradient(55vmax 55vmax at 100% 100%, #ffe3c9 0%, transparent 60%),
+        var(--bg);
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+
+    .card {
+      width: min(100%, 440px);
+      margin-top: 40px;
+      padding: 36px 24px 28px;
+      background: var(--card);
+      border-radius: var(--radius-card);
+      box-shadow: 0 24px 60px -28px rgba(178, 40, 84, .45), 0 2px 6px rgba(178, 40, 84, .06);
+      text-align: center;
+    }
+
+    /* Layar pertama tidak dianimasikan: transform di induk akan mengacaukan tombol yang position: fixed */
+    .screen:not(#screen-ask) { animation: rise .45s ease-out; }
+    @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
+
+    .sticker {
+      width: 76px;
+      height: 76px;
+      margin: -72px auto 14px;
+      display: grid;
+      place-items: center;
+      font-size: 36px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #fff, #ffe6ec);
+      box-shadow: 0 0 0 6px #fff, 0 12px 24px -12px rgba(178, 40, 84, .55);
+      animation: bob 3.2s ease-in-out infinite;
+    }
+    @keyframes bob { 50% { transform: translateY(-6px) rotate(-4deg); } }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--rose);
+    }
+
+    h1, h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(1.75rem, 6.5vw, 2.25rem);
+      line-height: 1.15;
+      letter-spacing: -.01em;
+      text-wrap: balance;
+      outline: none;
+    }
+    h1 em, h2 em { font-weight: 500; color: var(--rose); }
+
+    .lead { margin: 12px 0 0; color: var(--muted); text-wrap: pretty; }
+
+    /* ---------- Tombol ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 28px;
+      border: 0;
+      border-radius: 999px;
+      font: 700 1.0625rem/1 var(--font-body);
+      text-decoration: none;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .btn:focus-visible { outline: 3px solid var(--rose-soft); outline-offset: 3px; }
+
+    .btn-primary {
+      color: #fff;
+      background: var(--rose);
+      box-shadow: 0 12px 24px -12px rgba(212, 42, 92, .8);
+      transform: scale(var(--grow, 1));
+      transition: transform .3s var(--spring), background-color .15s;
+    }
+    .btn-primary:hover { background: var(--rose-deep); }
+    .btn-primary:active { transform: scale(calc(var(--grow, 1) * .97)); }
+
+    .btn-ghost {
+      color: var(--ink);
+      background: #fff;
+      border: 1.5px solid var(--line);
+    }
+
+    .btn-link {
+      min-height: 44px;
+      padding: 0 12px;
+      color: var(--muted);
+      background: none;
+      font-weight: 600;
+      font-size: .9375rem;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .btn-block { width: 100%; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    /* Tombol "Nggak mau": slot menjaga tempat aslinya, tombolnya yang kabur */
+    .no-slot { display: inline-flex; flex: none; }
+    #btn-no {
+      position: relative;
+      z-index: 10;
+      white-space: nowrap;
+      touch-action: none;
+      transition: transform .34s var(--spring);
+      will-change: transform;
+    }
+    #btn-no.is-floating { position: fixed; top: 0; left: 0; }
+    #btn-no > span { display: inline-block; pointer-events: none; }
+
+    .tease {
+      min-height: 3.1em;        /* ruang dua baris, supaya kartu tidak naik-turun saat teks berganti */
+      margin: 18px 0 0;
+      font-size: .9375rem;
+      color: var(--muted);
+    }
+
+    /* ---------- Form ---------- */
+    form { margin-top: 8px; }
+
+    .fields { display: grid; gap: 0 12px; }
+    @media (min-width: 480px) { .fields { grid-template-columns: 1fr 1fr; } }
+
+    .field { margin-top: 18px; text-align: left; }
+
+    .label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: .9375rem;
+      font-weight: 600;
+    }
+
+    .input {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 16px;
+      font: 500 1.0625rem var(--font-body);
+      color: var(--ink);
+      background: var(--field);
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius-field);
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .input:focus-visible { outline: 3px solid var(--rose-soft); outline-offset: 2px; border-color: var(--rose); }
+    .input[aria-invalid="true"] { border-color: var(--danger); }
+
+    .error { margin: 6px 0 0; font-size: .875rem; color: var(--danger); }
+    .error:empty { display: none; }
+
+    fieldset { margin: 18px 0 0; padding: 0; border: 0; text-align: left; }
+    legend { padding: 0; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { position: relative; }
+    .chip input { position: absolute; opacity: 0; pointer-events: none; }
+    .chip span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 16px;
+      font-size: .9375rem;
+      font-weight: 600;
+      background: var(--field);
+      border: 1.5px solid var(--line);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background-color .15s, border-color .15s, color .15s;
+    }
+    .chip input:checked + span { color: #fff; background: var(--rose); border-color: var(--rose); }
+    .chip input:focus-visible + span { outline: 3px solid var(--rose-soft); outline-offset: 2px; }
+
+    form .btn-block { margin-top: 26px; }
+
+    /* ---------- Tiket ringkasan ---------- */
+    .ticket {
+      margin-top: 22px;
+      padding: 16px 18px 6px;
+      text-align: left;
+      background: #fff8f4;
+      border: 1.5px dashed #f0b9c6;
+      border-radius: 20px;
+    }
+    .ticket-label {
+      margin: 0 0 4px;
+      font-size: .6875rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--rose);
+    }
+    .ticket dl { margin: 0; }
+    .ticket dl > div {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 0;
+      border-top: 1px dashed #f3cbd4;
+    }
+    .ticket dl > div:first-child { border-top: 0; }
+    .ticket dt { flex: none; font-size: .875rem; color: var(--muted); }
+    .ticket dd { margin: 0; font-weight: 700; text-align: right; }
+
+    .done-actions { display: grid; gap: 6px; margin-top: 22px; }
+
+    .footnote { margin: 18px 0 0; font-size: .8125rem; color: var(--muted); }
+
+    /* ---------- Tombol musik ---------- */
+    .music-toggle {
+      position: fixed;
+      top: max(12px, env(safe-area-inset-top));
+      right: max(12px, env(safe-area-inset-right));
+      z-index: 30;
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      font-size: 1.25rem;
+      line-height: 1;
+      background: rgba(255, 255, 255, .92);
+      border: 1.5px solid var(--line);
+      border-radius: 50%;
+      box-shadow: 0 10px 20px -12px rgba(178, 40, 84, .6);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .music-toggle:focus-visible { outline: 3px solid var(--rose-soft); outline-offset: 3px; }
+
+    /* ---------- Hujan hati ---------- */
+    .confetti { position: fixed; inset: 0; z-index: 20; overflow: hidden; pointer-events: none; }
+    .confetti span { position: absolute; top: -48px; animation: fall linear forwards; }
+    @keyframes fall { to { transform: translate(var(--drift, 0), 112vh) rotate(260deg); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+
+    <!-- 1. Pertanyaan -->
+    <section class="screen" id="screen-ask">
+      <div class="sticker" aria-hidden="true">💌</div>
+      <p class="eyebrow">Satu pertanyaan penting</p>
+      <h1 tabindex="-1"><em data-nama>Bu Marsha</em>, mau jalan sama saya?</h1>
+      <p class="lead">Nggak usah buru-buru jawab. Pilihannya ada dua… kurang lebih. 😌</p>
+
+      <div class="actions">
+        <button type="button" class="btn btn-primary" id="btn-yes">Mau 💕</button>
+        <span class="no-slot" id="no-slot">
+          <button type="button" class="btn btn-ghost" id="btn-no"><span>Nggak mau</span></button>
+        </span>
+      </div>
+      <p class="tease" id="tease" aria-live="polite"></p>
+    </section>
+
+    <!-- 2. Pilih tanggal & jam -->
+    <section class="screen" id="screen-pick" hidden>
+      <div class="sticker" aria-hidden="true">🗓️</div>
+      <p class="eyebrow">Jawaban yang tepat</p>
+      <h2 tabindex="-1">Asyik! Kapan bisanya, <em data-nama>Bu Marsha</em>?</h2>
+      <p class="lead">Ini usulan saya. Kalau kurang pas, ganti saja tanggal dan jamnya.</p>
+
+      <form id="form-pick" novalidate>
+        <div class="fields">
+          <div class="field">
+            <label class="label" for="in-date">Tanggal</label>
+            <input class="input" type="date" id="in-date" name="tanggal" required aria-describedby="err-date">
+            <p class="error" id="err-date" role="alert"></p>
+          </div>
+          <div class="field">
+            <label class="label" for="in-time">Jam</label>
+            <input class="input" type="time" id="in-time" name="jam" required aria-describedby="err-time">
+            <p class="error" id="err-time" role="alert"></p>
+          </div>
+        </div>
+
+        <fieldset>
+          <legend class="label">Enaknya ngapain?</legend>
+          <div class="chips" id="chips"></div>
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary btn-block">Fix, kita jalan!</button>
+      </form>
+    </section>
+
+    <!-- 3. Konfirmasi -->
+    <section class="screen" id="screen-done" hidden>
+      <div class="sticker" aria-hidden="true">🥳</div>
+      <p class="eyebrow">Sudah dicatat</p>
+      <h2 tabindex="-1">Sampai ketemu, <em data-nama>Bu Marsha</em>!</h2>
+      <p class="lead">Tinggal satu langkah: kabari saya lewat WhatsApp, biar saya bisa siap-siap.</p>
+
+      <div class="ticket">
+        <p class="ticket-label">Tiket jalan · untuk berdua</p>
+        <dl>
+          <div><dt>Hari</dt><dd id="sum-date"></dd></div>
+          <div><dt>Jam</dt><dd id="sum-time"></dd></div>
+          <div><dt>Acara</dt><dd id="sum-plan"></dd></div>
+        </dl>
+      </div>
+
+      <div class="done-actions">
+        <a class="btn btn-primary btn-block" id="wa-link" href="https://wa.me/" target="_blank" rel="noopener">Kabari lewat WhatsApp</a>
+        <button type="button" class="btn btn-link" id="btn-back">Ganti waktu</button>
+      </div>
+    </section>
+
+  </main>
+
+  <p class="footnote">Halaman ini dibuat khusus untuk satu orang. 💌</p>
+
+  <button type="button" class="music-toggle" id="music-toggle" aria-label="Matikan musik" hidden>🔊</button>
+
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+  <script>
+    (() => {
+      'use strict';
+
+      // ======================= UBAH DI SINI =======================
+      const CONFIG = {
+        namaDia: 'Bu Marsha',
+        // Nomor WhatsApp kamu (yang menerima jawabannya), contoh: '6281234567890'.
+        // Kalau dikosongkan, WhatsApp akan meminta dia memilih kontak sendiri.
+        nomorWa: '6289687101419',
+        // Usulan waktu. Tanggal format 'YYYY-MM-DD'; kosongkan = Sabtu terdekat.
+        tanggalUsulan: '',
+        jamUsulan: '19:00',
+        // Lagu yang diputar setelah dia menekan "Mau". Taruh file-nya di folder yang sama
+        // dengan index.html. Kosongkan ('') kalau tidak mau pakai musik.
+        lagu: 'lagu.mp3',
+        acara: ['Ngopi ☕', 'Makan 🍜', 'Nonton 🎬', 'Terserah kamu 😄'],
+      };
+      // ============================================================
+
+      const TEASES = [
+        'Eits, nggak kena. 😝',
+        'Yakin, Bu? Coba dipikir lagi…',
+        'Tombolnya pemalu, Bu.',
+        'Hampir! Tapi belum.',
+        'Kayaknya tombol yang itu lagi rusak deh. 🤭',
+        'Yang merah muda lebih gampang dipencet, lho.',
+        'Saya bisa begini seharian, Bu. 😌',
+      ];
+
+      const $ = (sel) => document.querySelector(sel);
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      document.querySelectorAll('[data-nama]').forEach((el) => { el.textContent = CONFIG.namaDia; });
+      document.title = `Ada pertanyaan untuk ${CONFIG.namaDia}`;
+
+      // ---------- Pindah layar ----------
+      const screens = { ask: $('#screen-ask'), pick: $('#screen-pick'), done: $('#screen-done') };
+
+      function show(name) {
+        Object.entries(screens).forEach(([key, el]) => { el.hidden = key !== name; });
+        window.scrollTo(0, 0);
+        screens[name].querySelector('h1, h2').focus({ preventScroll: true });
+      }
+
+      // ---------- Tombol "Nggak mau" yang loncat-loncat ----------
+      const yesBtn = $('#btn-yes');
+      const noBtn = $('#btn-no');
+      const noSlot = $('#no-slot');
+      const question = screens.ask.querySelector('h1');
+      const tease = $('#tease');
+
+      const EDGE = 16;          // jarak minimum dari tepi layar
+      const TRIGGER = 36;       // kursor sedekat ini (px) → tombol kabur
+      const COOLDOWN_MS = 160;
+      const MAX_GROW = 1.3;
+
+      const pointer = { x: -9999, y: -9999 };
+      let pos = null;           // posisi tombol di layar setelah mulai kabur; null = masih di tempat asal
+      let dodges = 0;
+      let lastDodge = 0;
+
+      // Posisi tujuan tombol (bukan posisi saat masih melayang di tengah animasi)
+      function noRect() {
+        const origin = pos || (() => {
+          const slot = noSlot.getBoundingClientRect();
+          return { x: slot.left, y: slot.top };
+        })();
+        return {
+          left: origin.x,
+          top: origin.y,
+          right: origin.x + noBtn.offsetWidth,
+          bottom: origin.y + noBtn.offsetHeight,
+        };
+      }
+
+      // Lepas tombol dari alur halaman supaya posisinya tidak ikut bergeser saat layout berubah.
+      // Slot menahan tempat aslinya; tombol melayang dengan koordinat layar.
+      function detach() {
+        const slot = noSlot.getBoundingClientRect();
+        noSlot.style.width = `${slot.width}px`;
+        noSlot.style.height = `${slot.height}px`;
+        pos = { x: slot.left, y: slot.top };
+        noBtn.style.transition = 'none';
+        noBtn.classList.add('is-floating');
+        noBtn.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+        noBtn.getBoundingClientRect();   // paksa reflow supaya loncatan pertama tetap beranimasi
+        noBtn.style.transition = '';
+      }
+
+      // Pilih posisi acak di dalam layar: tidak menimpa tombol "Mau" maupun pertanyaannya,
+      // dan sejauh mungkin dari kursor serta posisi sebelumnya.
+      function relocate() {
+        if (!pos) detach();
+        const obstacles = [
+          { rect: yesBtn.getBoundingClientRect(), gap: 14 },
+          { rect: question.getBoundingClientRect(), gap: 12 },
+        ];
+        const w = noBtn.offsetWidth;
+        const h = noBtn.offsetHeight;
+        const spanX = Math.max(0, document.documentElement.clientWidth - w - EDGE * 2);
+        const spanY = Math.max(0, window.innerHeight - h - EDGE * 2);
+
+        let best = null;
+        for (let i = 0; i < 60; i += 1) {
+          const x = EDGE + Math.random() * spanX;
+          const y = EDGE + Math.random() * spanY;
+          const blocked = obstacles.some(({ rect, gap }) => (
+            x < rect.right + gap && x + w > rect.left - gap && y < rect.bottom + gap && y + h > rect.top - gap
+          ));
+          if (blocked) continue;
+          const fromPointer = Math.hypot(x + w / 2 - pointer.x, y + h / 2 - pointer.y);
+          const fromCurrent = Math.hypot(x - pos.x, y - pos.y);
+          const score = Math.min(fromPointer, fromCurrent);
+          if (!best || score > best.score) best = { x, y, score };
+          if (score > 160) break;
+        }
+        if (!best) return;
+
+        pos = { x: best.x, y: best.y };
+        const tilt = (Math.random() * 16 - 8).toFixed(1);
+        noBtn.style.transform = `translate(${pos.x}px, ${pos.y}px) rotate(${tilt}deg)`;
+      }
+
+      function dodge() {
+        const now = performance.now();
+        if (now - lastDodge < COOLDOWN_MS) return;
+        lastDodge = now;
+
+        // Teks diganti dulu supaya layout sudah final saat posisi baru dihitung
+        tease.textContent = TEASES[dodges % TEASES.length];
+        dodges += 1;
+        yesBtn.style.setProperty('--grow', Math.min(1 + dodges * 0.06, MAX_GROW).toFixed(2));
+
+        relocate();
+
+        if (!reduceMotion && noBtn.firstElementChild.animate) {
+          noBtn.firstElementChild.animate(
+            [
+              { transform: 'translateY(0) scale(1, 1)' },
+              { transform: 'translateY(-16px) scale(1.08, .92)' },
+              { transform: 'translateY(0) scale(1, 1)' },
+            ],
+            { duration: 340, easing: 'ease-out' },
+          );
+        }
+      }
+
+      document.addEventListener('pointermove', (e) => {
+        pointer.x = e.clientX;
+        pointer.y = e.clientY;
+        if (screens.ask.hidden || e.pointerType !== 'mouse') return;
+        const r = noRect();
+        const dx = Math.max(r.left - e.clientX, 0, e.clientX - r.right);
+        const dy = Math.max(r.top - e.clientY, 0, e.clientY - r.bottom);
+        if (Math.hypot(dx, dy) < TRIGGER) dodge();
+      });
+
+      // Layar sentuh: kabur begitu jari menyentuh. Keyboard (Enter/Spasi): kabur juga.
+      noBtn.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        pointer.x = e.clientX;
+        pointer.y = e.clientY;
+        dodge();
+      });
+      noBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        dodge();
+      });
+
+      window.addEventListener('resize', () => {
+        if (pos && !screens.ask.hidden) relocate();
+      });
+
+      // ---------- Tanggal & jam ----------
+      const form = $('#form-pick');
+      const dateInput = $('#in-date');
+      const timeInput = $('#in-time');
+      const chips = $('#chips');
+
+      const pad2 = (n) => String(n).padStart(2, '0');
+      const toISODate = (d) => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+      const todayISO = () => toISODate(new Date());
+
+      function nextSaturdayISO() {
+        const d = new Date();
+        d.setDate(d.getDate() + (((6 - d.getDay() + 7) % 7) || 7));
+        return toISODate(d);
+      }
+
+      const validProposal = /^\d{4}-\d{2}-\d{2}$/.test(CONFIG.tanggalUsulan) && CONFIG.tanggalUsulan >= todayISO();
+      dateInput.min = todayISO();
+      dateInput.value = validProposal ? CONFIG.tanggalUsulan : nextSaturdayISO();
+      timeInput.value = /^\d{2}:\d{2}$/.test(CONFIG.jamUsulan) ? CONFIG.jamUsulan : '19:00';
+
+      CONFIG.acara.forEach((label, i) => {
+        const wrap = document.createElement('label');
+        wrap.className = 'chip';
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'acara';
+        input.value = label;
+        input.checked = i === 0;
+        const text = document.createElement('span');
+        text.textContent = label;
+        wrap.append(input, text);
+        chips.append(wrap);
+      });
+
+      function setError(input, message) {
+        input.setAttribute('aria-invalid', message ? 'true' : 'false');
+        $(`#${input.getAttribute('aria-describedby')}`).textContent = message;
+      }
+
+      function validate() {
+        const date = dateInput.value;
+        const time = timeInput.value;
+        const now = new Date();
+        const nowTime = `${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
+
+        let dateError = '';
+        if (!date) dateError = 'Tanggalnya belum dipilih.';
+        else if (date < todayISO()) dateError = 'Tanggal itu sudah lewat. Pilih hari ini atau setelahnya ya.';
+
+        let timeError = '';
+        if (!time) timeError = 'Jamnya belum dipilih.';
+        else if (date === todayISO() && time <= nowTime) timeError = 'Jam segitu sudah lewat. Pilih jam yang lebih nanti ya.';
+
+        setError(dateInput, dateError);
+        setError(timeInput, timeError);
+        if (dateError) dateInput.focus();
+        else if (timeError) timeInput.focus();
+        return !dateError && !timeError;
+      }
+
+      // Sisakan huruf, angka, tanda baca, dan spasi saja
+      const plainText = (text) => String(text).replace(/[^\p{L}\p{N}\p{P}\p{Z}]/gu, '').replace(/\s+/g, ' ').trim();
+
+      function waNumber(raw) {
+        const digits = String(raw).replace(/\D/g, '');
+        if (digits.startsWith('0')) return `62${digits.slice(1)}`;
+        if (digits.startsWith('8')) return `62${digits}`;
+        return digits;
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!validate()) return;
+
+        const [y, m, d] = dateInput.value.split('-').map(Number);
+        const dateText = new Intl.DateTimeFormat('id-ID', {
+          weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+        }).format(new Date(y, m - 1, d));
+        const timeText = timeInput.value.replace(':', '.');
+        const plan = new FormData(form).get('acara') || 'Terserah';
+
+        $('#sum-date').textContent = dateText;
+        $('#sum-time').textContent = `Pukul ${timeText}`;
+        $('#sum-plan').textContent = plan;
+
+        // Pesan WhatsApp sengaja tanpa emoji: tautan wa.me mengubah emoji menjadi karakter rusak (�).
+        const message = [
+          'Halo! Jawaban saya: mau.',
+          `Hari: ${dateText}`,
+          `Jam: ${timeText}`,
+          `Acara: ${plainText(plan)}`,
+          'Sampai ketemu ya!',
+        ].join('\n');
+        $('#wa-link').href = `https://wa.me/${waNumber(CONFIG.nomorWa)}?text=${encodeURIComponent(message)}`;
+
+        show('done');
+        celebrate();
+      });
+
+      // ---------- Hujan hati ----------
+      const HEARTS = ['💕', '💖', '🌸', '✨', '💗'];
+
+      function celebrate() {
+        if (reduceMotion) return;
+        const layer = $('#confetti');
+        for (let i = 0; i < 26; i += 1) {
+          const piece = document.createElement('span');
+          piece.textContent = HEARTS[i % HEARTS.length];
+          piece.style.left = `${Math.random() * 100}vw`;
+          piece.style.fontSize = `${16 + Math.random() * 20}px`;
+          piece.style.animationDuration = `${2.2 + Math.random() * 1.8}s`;
+          piece.style.animationDelay = `${Math.random() * 0.5}s`;
+          piece.style.setProperty('--drift', `${Math.random() * 120 - 60}px`);
+          piece.addEventListener('animationend', () => piece.remove());
+          layer.append(piece);
+        }
+      }
+
+      // ---------- Musik ----------
+      const musicToggle = $('#music-toggle');
+      const audio = CONFIG.lagu ? new Audio(CONFIG.lagu) : null;
+      let musicStarted = false;
+      let pausedByUser = false;
+
+      function renderMusicToggle() {
+        musicToggle.textContent = audio.paused ? '🔇' : '🔊';
+        musicToggle.setAttribute('aria-label', audio.paused ? 'Nyalakan musik' : 'Matikan musik');
+      }
+
+      // Browser hanya mengizinkan play() karena dipanggil langsung dari klik tombol "Mau".
+      // Kalau file lagu tidak ada atau gagal dimuat, halaman tetap jalan tanpa musik.
+      function startMusic() {
+        if (!audio) return;
+        musicStarted = true;
+        audio.play().catch(() => {});
+      }
+
+      if (audio) {
+        audio.loop = true;
+        audio.preload = 'auto';
+        audio.addEventListener('playing', () => {
+          musicToggle.hidden = false;
+          renderMusicToggle();
+        });
+        audio.addEventListener('pause', renderMusicToggle);
+
+        musicToggle.addEventListener('click', () => {
+          pausedByUser = !audio.paused;
+          if (audio.paused) audio.play().catch(() => {});
+          else audio.pause();
+        });
+
+        // Diam saat dia pindah ke WhatsApp/aplikasi lain, lanjut lagi saat kembali ke halaman
+        document.addEventListener('visibilitychange', () => {
+          if (!musicStarted) return;
+          if (document.hidden) audio.pause();
+          else if (!pausedByUser) audio.play().catch(() => {});
+        });
+      }
+
+      yesBtn.addEventListener('click', () => {
+        startMusic();
+        show('pick');
+        celebrate();
+      });
+      $('#btn-back').addEventListener('click', () => show('pick'));
+    })();
+  </script>
+</body>
+</html>
