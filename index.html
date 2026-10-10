@@ -4,24 +4,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="theme-color" content="#fff3ec">
-  <title>Ada pertanyaan untuk Bu Marsha</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💌</text></svg>">
+  <meta name="theme-color" content="#fdf6ea">
+  <title>Main yuk, Bu Marsha</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗿</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       color-scheme: light;
-      --bg: #fff3ec;
-      --ink: #3b1f2b;
-      --muted: #8b6a76;
-      --rose: #d42a5c;
-      --rose-deep: #b01c49;
-      --rose-soft: rgba(212, 42, 92, .35);
+      --bg: #fdf6ea;
+      --blob-a: #ffe2bf;
+      --blob-b: #fff1b8;
+      --ink: #33241a;
+      --muted: #7a6455;
+      --accent: #c2410c;
+      --accent-deep: #9a3412;
+      --accent-rgb: 194, 65, 12;
       --card: #ffffff;
-      --field: #fffaf7;
-      --line: #f1d9df;
+      --field: #fffcf7;
+      --line: #f0e2d0;
+      --sticker: #ffe9cf;
+      --ticket-bg: #fff8ee;
+      --ticket-line: #efc79d;
       --danger: #b3261e;
       --radius-card: 28px;
       --radius-field: 16px;
@@ -49,8 +54,8 @@
       line-height: 1.55;
       color: var(--ink);
       background:
-        radial-gradient(60vmax 60vmax at 0% 0%, #ffd9e0 0%, transparent 60%),
-        radial-gradient(55vmax 55vmax at 100% 100%, #ffe3c9 0%, transparent 60%),
+        radial-gradient(60vmax 60vmax at 0% 0%, var(--blob-a) 0%, transparent 60%),
+        radial-gradient(55vmax 55vmax at 100% 100%, var(--blob-b) 0%, transparent 60%),
         var(--bg);
       background-attachment: fixed;
       overflow-x: hidden;
@@ -58,11 +63,11 @@
 
     .card {
       width: min(100%, 440px);
-      margin-top: 40px;
+      margin-top: 52px;         /* ruang untuk stiker foto yang menonjol di atas kartu */
       padding: 36px 24px 28px;
       background: var(--card);
       border-radius: var(--radius-card);
-      box-shadow: 0 24px 60px -28px rgba(178, 40, 84, .45), 0 2px 6px rgba(178, 40, 84, .06);
+      box-shadow: 0 24px 60px -28px rgba(var(--accent-rgb), .4), 0 2px 6px rgba(var(--accent-rgb), .06);
       text-align: center;
     }
 
@@ -78,11 +83,15 @@
       place-items: center;
       font-size: 36px;
       border-radius: 50%;
-      background: linear-gradient(145deg, #fff, #ffe6ec);
-      box-shadow: 0 0 0 6px #fff, 0 12px 24px -12px rgba(178, 40, 84, .55);
+      background: linear-gradient(145deg, #fff, var(--sticker));
+      box-shadow: 0 0 0 6px #fff, 0 12px 24px -12px rgba(var(--accent-rgb), .55);
       animation: bob 3.2s ease-in-out infinite;
     }
     @keyframes bob { 50% { transform: translateY(-6px) rotate(-4deg); } }
+
+    /* Stiker berisi foto: sedikit lebih besar supaya mukanya kelihatan */
+    .sticker-photo { width: 96px; height: 96px; margin-top: -84px; overflow: hidden; }
+    .sticker-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
     .eyebrow {
       margin: 0 0 10px;
@@ -90,7 +99,7 @@
       font-weight: 700;
       letter-spacing: .14em;
       text-transform: uppercase;
-      color: var(--rose);
+      color: var(--accent);
     }
 
     h1, h2 {
@@ -103,7 +112,7 @@
       text-wrap: balance;
       outline: none;
     }
-    h1 em, h2 em { font-weight: 500; color: var(--rose); }
+    h1 em, h2 em { font-weight: 500; color: var(--accent); }
 
     .lead { margin: 12px 0 0; color: var(--muted); text-wrap: pretty; }
 
@@ -122,16 +131,16 @@
       -webkit-tap-highlight-color: transparent;
       user-select: none;
     }
-    .btn:focus-visible { outline: 3px solid var(--rose-soft); outline-offset: 3px; }
+    .btn:focus-visible { outline: 3px solid rgba(var(--accent-rgb), .35); outline-offset: 3px; }
 
     .btn-primary {
       color: #fff;
-      background: var(--rose);
-      box-shadow: 0 12px 24px -12px rgba(212, 42, 92, .8);
+      background: var(--accent);
+      box-shadow: 0 12px 24px -12px rgba(var(--accent-rgb), .8);
       transform: scale(var(--grow, 1));
       transition: transform .3s var(--spring), background-color .15s;
     }
-    .btn-primary:hover { background: var(--rose-deep); }
+    .btn-primary:hover { background: var(--accent-deep); }
     .btn-primary:active { transform: scale(calc(var(--grow, 1) * .97)); }
 
     .btn-ghost {
@@ -209,7 +218,7 @@
       -webkit-appearance: none;
       appearance: none;
     }
-    .input:focus-visible { outline: 3px solid var(--rose-soft); outline-offset: 2px; border-color: var(--rose); }
+    .input:focus-visible { outline: 3px solid rgba(var(--accent-rgb), .35); outline-offset: 2px; border-color: var(--accent); }
     .input[aria-invalid="true"] { border-color: var(--danger); }
 
     .error { margin: 6px 0 0; font-size: .875rem; color: var(--danger); }
@@ -234,8 +243,8 @@
       cursor: pointer;
       transition: background-color .15s, border-color .15s, color .15s;
     }
-    .chip input:checked + span { color: #fff; background: var(--rose); border-color: var(--rose); }
-    .chip input:focus-visible + span { outline: 3px solid var(--rose-soft); outline-offset: 2px; }
+    .chip input:checked + span { color: #fff; background: var(--accent); border-color: var(--accent); }
+    .chip input:focus-visible + span { outline: 3px solid rgba(var(--accent-rgb), .35); outline-offset: 2px; }
 
     form .btn-block { margin-top: 26px; }
 
@@ -244,8 +253,8 @@
       margin-top: 22px;
       padding: 16px 18px 6px;
       text-align: left;
-      background: #fff8f4;
-      border: 1.5px dashed #f0b9c6;
+      background: var(--ticket-bg);
+      border: 1.5px dashed var(--ticket-line);
       border-radius: 20px;
     }
     .ticket-label {
@@ -254,7 +263,7 @@
       font-weight: 700;
       letter-spacing: .14em;
       text-transform: uppercase;
-      color: var(--rose);
+      color: var(--accent);
     }
     .ticket dl { margin: 0; }
     .ticket dl > div {
@@ -263,7 +272,7 @@
       justify-content: space-between;
       gap: 16px;
       padding: 10px 0;
-      border-top: 1px dashed #f3cbd4;
+      border-top: 1px dashed var(--ticket-line);
     }
     .ticket dl > div:first-child { border-top: 0; }
     .ticket dt { flex: none; font-size: .875rem; color: var(--muted); }
@@ -273,7 +282,7 @@
 
     .footnote { margin: 18px 0 0; font-size: .8125rem; color: var(--muted); }
 
-    /* ---------- Hujan hati ---------- */
+    /* ---------- Hujan konfeti ---------- */
     .confetti { position: fixed; inset: 0; z-index: 20; overflow: hidden; pointer-events: none; }
     .confetti span { position: absolute; top: -48px; animation: fall linear forwards; }
     @keyframes fall { to { transform: translate(var(--drift, 0), 112vh) rotate(260deg); } }
@@ -292,13 +301,13 @@
 
     <!-- 1. Pertanyaan -->
     <section class="screen" id="screen-ask">
-      <div class="sticker" aria-hidden="true">💌</div>
-      <p class="eyebrow">Satu pertanyaan penting</p>
-      <h1 tabindex="-1"><em data-nama>Bu Marsha</em>, mau jalan sama aku?</h1>
-      <p class="lead">Nggak usah buru-buru jawab. Pilihannya ada dua… kurang lebih. 😌</p>
+      <div class="sticker sticker-photo" aria-hidden="true"><img src="maskot.jpg" alt="" width="96" height="96"></div>
+      <p class="eyebrow">Ajakan nggak resmi</p>
+      <h1 tabindex="-1"><em data-nama>Bu Marsha</em>, main yuk?</h1>
+      <p class="lead">Nggak usah buru-buru jawab. Pilihannya ada dua… kurang lebih 🗿</p>
 
       <div class="actions">
-        <button type="button" class="btn btn-primary" id="btn-yes">Mau 💕</button>
+        <button type="button" class="btn btn-primary" id="btn-yes">Mau 🤙</button>
         <span class="no-slot" id="no-slot">
           <button type="button" class="btn btn-ghost" id="btn-no"><span>Nggak mau</span></button>
         </span>
@@ -308,7 +317,7 @@
 
     <!-- 2. Pilih tanggal & jam -->
     <section class="screen" id="screen-pick" hidden>
-      <div class="sticker" aria-hidden="true">🗓️</div>
+      <div class="sticker sticker-photo" aria-hidden="true"><img src="maskot-2.jpg" alt="" width="96" height="96"></div>
       <p class="eyebrow">Jawaban yang tepat</p>
       <h2 tabindex="-1">Anjaii finally, kapan nih bisanya <em data-nama>Bu Marsha</em>?</h2>
       <p class="lead">Ini usulan aku. Kalau kurang pas, ganti saja tanggal dan jamnya, cuti aku masih banyakk.</p>
@@ -332,19 +341,19 @@
           <div class="chips" id="chips"></div>
         </fieldset>
 
-        <button type="submit" class="btn btn-primary btn-block">Fix, kita jalan!</button>
+        <button type="submit" class="btn btn-primary btn-block">Fix, gas main!</button>
       </form>
     </section>
 
     <!-- 3. Konfirmasi -->
     <section class="screen" id="screen-done" hidden>
-      <div class="sticker" aria-hidden="true">🥳</div>
+      <div class="sticker sticker-photo" aria-hidden="true"><img src="maskot-3.jpg" alt="" width="96" height="96"></div>
       <p class="eyebrow">Sudah dicatat</p>
       <h2 tabindex="-1">Sampai ketemu, <em data-nama>Bu Marsha</em>!</h2>
       <p class="lead">Tinggal satu langkah: kabari aku lewat WhatsApp, biar aku bisa siap-siap.</p>
 
       <div class="ticket">
-        <p class="ticket-label">Tiket jalan · untuk berdua</p>
+        <p class="ticket-label">Tiket main</p>
         <dl>
           <div><dt>Hari</dt><dd id="sum-date"></dd></div>
           <div><dt>Jam</dt><dd id="sum-time"></dd></div>
@@ -360,7 +369,7 @@
 
   </main>
 
-  <p class="footnote">Halaman ini dibuat khusus untuk satu orang. 💌</p>
+  <p class="footnote">Dibuat pakai niat dan sedikit gabut 🗿</p>
 
   <div class="confetti" id="confetti" aria-hidden="true"></div>
 
@@ -378,7 +387,7 @@
         tanggalUsulan: '2026-10-16',
         jamUsulan: '15:30',
         // Lagu yang diputar setelah dia menekan "Mau". Taruh file-nya di folder yang sama
-        // dengan index.html. Kosongkan ('') kalau tidak mau pakai musik.
+        // dengan halaman ini. Kosongkan ('') kalau tidak mau pakai musik.
         lagu: 'lagu.mp3',
         acara: ['Ngopi ☕', 'Makan 🍜', 'Nonton 🎬', 'Terserah kamu 😄'],
       };
@@ -390,7 +399,7 @@
         'Tombolnya pemalu, Bu 🗿',
         'Hampir! Tapi belum 🗿',
         'Kayaknya tombol yang itu lagi rusak cuy 🗿',
-        'Yang merah muda lebih gampang dipencet, lho 🗿',
+        'Tombol sebelah lebih gampang dipencet, lho 🗿',
         'Aku bisa begini seharian, Bu 🗿',
       ];
 
@@ -398,7 +407,7 @@
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       document.querySelectorAll('[data-nama]').forEach((el) => { el.textContent = CONFIG.namaDia; });
-      document.title = `Ada pertanyaan untuk ${CONFIG.namaDia}`;
+      document.title = `Main yuk, ${CONFIG.namaDia}`;
 
       // ---------- Pindah layar ----------
       const screens = { ask: $('#screen-ask'), pick: $('#screen-pick'), done: $('#screen-done') };
@@ -638,15 +647,15 @@
         celebrate();
       });
 
-      // ---------- Hujan hati ----------
-      const HEARTS = ['💕', '💖', '🌸', '✨', '💗'];
+      // ---------- Hujan konfeti ----------
+      const CONFETTI = ['🎉', '🗿', '✨', '🎊', '🤙'];
 
       function celebrate() {
         if (reduceMotion) return;
         const layer = $('#confetti');
         for (let i = 0; i < 26; i += 1) {
           const piece = document.createElement('span');
-          piece.textContent = HEARTS[i % HEARTS.length];
+          piece.textContent = CONFETTI[i % CONFETTI.length];
           piece.style.left = `${Math.random() * 100}vw`;
           piece.style.fontSize = `${16 + Math.random() * 20}px`;
           piece.style.animationDuration = `${2.2 + Math.random() * 1.8}s`;
