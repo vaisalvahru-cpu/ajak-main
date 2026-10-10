@@ -273,28 +273,6 @@
 
     .footnote { margin: 18px 0 0; font-size: .8125rem; color: var(--muted); }
 
-    /* ---------- Tombol musik ---------- */
-    .music-toggle {
-      position: fixed;
-      top: max(12px, env(safe-area-inset-top));
-      right: max(12px, env(safe-area-inset-right));
-      z-index: 30;
-      width: 48px;
-      height: 48px;
-      display: grid;
-      place-items: center;
-      padding: 0;
-      font-size: 1.25rem;
-      line-height: 1;
-      background: rgba(255, 255, 255, .92);
-      border: 1.5px solid var(--line);
-      border-radius: 50%;
-      box-shadow: 0 10px 20px -12px rgba(178, 40, 84, .6);
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .music-toggle:focus-visible { outline: 3px solid var(--rose-soft); outline-offset: 3px; }
-
     /* ---------- Hujan hati ---------- */
     .confetti { position: fixed; inset: 0; z-index: 20; overflow: hidden; pointer-events: none; }
     .confetti span { position: absolute; top: -48px; animation: fall linear forwards; }
@@ -383,8 +361,6 @@
   </main>
 
   <p class="footnote">Halaman ini dibuat khusus untuk satu orang. 💌</p>
-
-  <button type="button" class="music-toggle" id="music-toggle" aria-label="Matikan musik" hidden>🔊</button>
 
   <div class="confetti" id="confetti" aria-hidden="true"></div>
 
@@ -682,19 +658,12 @@
       }
 
       // ---------- Musik ----------
-      const musicToggle = $('#music-toggle');
       const audio = CONFIG.lagu ? new Audio(CONFIG.lagu) : null;
       let musicStarted = false;
-      let pausedByUser = false;
-
-      function renderMusicToggle() {
-        musicToggle.textContent = audio.paused ? '🔇' : '🔊';
-        musicToggle.setAttribute('aria-label', audio.paused ? 'Nyalakan musik' : 'Matikan musik');
-      }
 
       // Browser hanya mengizinkan play() karena dipanggil langsung dari klik tombol "Mau".
       // Kalau file lagu tidak ada atau gagal dimuat, halaman tetap jalan tanpa musik.
-      function startMusic() {
+      function playMusic() {
         if (!audio) return;
         musicStarted = true;
         audio.play().catch(() => {});
@@ -703,28 +672,18 @@
       if (audio) {
         audio.loop = true;
         audio.preload = 'auto';
-        audio.addEventListener('playing', () => {
-          musicToggle.hidden = false;
-          renderMusicToggle();
-        });
-        audio.addEventListener('pause', renderMusicToggle);
 
-        musicToggle.addEventListener('click', () => {
-          pausedByUser = !audio.paused;
-          if (audio.paused) audio.play().catch(() => {});
-          else audio.pause();
-        });
-
-        // Diam saat dia pindah ke WhatsApp/aplikasi lain, lanjut lagi saat kembali ke halaman
-        document.addEventListener('visibilitychange', () => {
-          if (!musicStarted) return;
-          if (document.hidden) audio.pause();
-          else if (!pausedByUser) audio.play().catch(() => {});
-        });
+        // Halaman ini tidak pernah menghentikan lagu. Kalau HP menjedanya sendiri (pindah
+        // aplikasi, layar terkunci, telepon masuk), lanjutkan begitu dia kembali atau menyentuh layar.
+        const resumeMusic = () => {
+          if (musicStarted && !document.hidden && audio.paused) playMusic();
+        };
+        document.addEventListener('visibilitychange', resumeMusic);
+        document.addEventListener('pointerdown', resumeMusic);
       }
 
       yesBtn.addEventListener('click', () => {
-        startMusic();
+        playMusic();
         show('pick');
         celebrate();
       });
